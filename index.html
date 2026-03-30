@@ -448,7 +448,7 @@ select:focus,input:focus,textarea:focus{border-color:var(--pink);box-shadow:0 0 
     <textarea id="editBio" placeholder="Wat maakt jou verdacht? Of juist niet? Wees eerlijk over jezelf..." style="min-height:75px;resize:none;margin-top:6px"></textarea>
     <span class="edit-label">💬 Quote of guilty pleasure</span>
     <textarea id="editQuote" placeholder="Een quote, je motto, of het meest gênante dat je ooit deed..." style="min-height:60px;resize:none;margin-top:6px"></textarea>
-    <span class="edit-label">🍺 Favoriete kroeg in Gent</span>
+    <span class="edit-label">🍺 Favoriete kroeg</span>
     <input type="text" id="editKroeg" placeholder="Dreupelkot, Waterhuis, De Dulle Griet...">
     <div style="display:flex;gap:10px;margin-top:18px">
       <button class="inline-btn" onclick="closeEditModal()" style="flex:1">Annuleren</button>
@@ -702,7 +702,6 @@ select:focus,input:focus,textarea:focus{border-color:var(--pink);box-shadow:0 0 
         <input type="password" id="adminPwInput" placeholder="Wachtwoord..." onkeydown="if(event.key==='Enter')checkAdminPw()">
         <button class="submit-btn" onclick="checkAdminPw()">Inloggen 🔑</button>
       </div>
-      <div style="margin-top:12px;font-size:11px;color:var(--muted)">Standaard: mol2024</div>
     </div>
     <div id="adminPanel" style="display:none"></div>
   </div>
@@ -864,13 +863,13 @@ const DEFAULT_TEST_QUESTIONS = [
   { id:'q6', text:'Wat deed de Mol toen de groep een foute keuze maakte?', options:['Zei niks en lachte stiekem','Gaf achteraf een vals excuus','Suggereerde de verkeerde richting','Keek ostentatief de andere kant op','Stelde té veel afleidende vragen'], correctIndex:null },
   { id:'q7', text:'Welke uitdrukking gebruikte de Mol het vaakst?', options:['"Ik dacht écht dat…"','"Jullie mogen mij vertrouwen"','"Dat was niet mijn bedoeling"','"Wat raar, bij mij werkte het wel"','"Laat mij even, ik weet een shortcut"'], correctIndex:null },
   { id:'q8', text:'Hoeveel keer dronk de Mol een extra glas zonder dat iemand het zag?', options:['0 — ze was heel voorzichtig','1 keer','2 keer','3 of meer keer','Ze dronk alleen als iedereen keek — slim'], correctIndex:null },
-  { id:'q9', text:'Welk Gents café bezocht de Mol het liefst als uitvalsbasis?', options:['Dreupelkot — jenever als alibi','Waterhuis aan de Bierkant','De Dulle Griet','Gruut Brewery','Het Spijker — altijd donker genoeg'], correctIndex:null },
+  { id:'q9', text:'Welk café bezocht de Mol het liefst als uitvalsbasis?', options:['Dreupelkot — jenever als alibi','Waterhuis aan de Bierkant','De Dulle Griet','Gruut Brewery','Het Spijker — altijd donker genoeg'], correctIndex:null },
   { id:'q10', text:'Hoe reageerde de Mol toen haar naam viel als verdachte?', options:['Lachte te hard en te lang','Veranderde snel van onderwerp','Beschuldigde meteen iemand anders','Bleef opvallend kalm','Zei "Jullie hebben gelijk" en zweeg daarna'], correctIndex:null },
 ];
 
 const PREGAME_QUESTIONS = [
   'Wat is je meest toxische eigenschap als vriendin? Wees brutaal eerlijk.',
-  'Beschrijf het domste of gênantste dat je ooit deed op een avond uit in Gent. Details tellen.',
+  'Beschrijf het domste of gênantste dat je ooit deed op een avond uit. Details tellen.',
   'Wie van de groep zou je als eerste verraden voor €500? En voor €50?',
   'Wat is het grootste geheim dat je van iemand anders in deze groep weet? (Je hoeft de naam niet te zeggen — maar hoe erg is het op schaal 1-10?)',
   'Met wie van de groep zou jij als duo De Zatte Mol overleven, en wie zou je meteen dumpen?',
@@ -900,7 +899,7 @@ const FOTO_OPDRACHTEN = [
   { id:'f5', title:'Het Bewijs', when:'Na de finale test', desc:'Iedereen maakt een foto van de persoon waarvan ze denken dat het de Mol is. Worden pas getoond als de Mol onthuld wordt.', tags:['SLIM'] },
 ];
 
-const QUOTES_TICKER = '🍷 Niemand is onschuldig. ✦ De Mol drinkt altijd het eerste glas. ✦ Gent, 2024. Vijf vriendinnen. Eén verrader. ✦ Ze lacht te hard bij elke opdracht. Verdacht. ✦ Vertrouwen is voor mensen die nog nuchter zijn. ✦ De Korenmarkt liegt niet — mensen wel. ✦ Wie het Dreupelkot ontwijkt heeft iets te verbergen. 🍊';
+const QUOTES_TICKER = '🍷 Niemand is onschuldig. ✦ De Mol drinkt altijd het eerste glas. ✦ Gent, 2026. Vijf vriendinnen. Eén verrader. ✦ Ze lacht te hard bij elke opdracht. Verdacht. ✦ Vertrouwen is voor mensen die nog nuchter zijn. ✦ De Korenmarkt liegt niet — mensen wel. ✦ Wie het Dreupelkot ontwijkt heeft iets te verbergen. 🍊';
 
 const MOL_TAKEN = [
   { cat:'🥂 Drankjes', moeilijk:'●○○', tekst:'Spill the drink', detail:'Zorg dat iemand haar drankje morst. Val per ongeluk even tegen haar arm. Doe het in de eerste helft van de avond.' },
@@ -1091,7 +1090,7 @@ function goTo(page) {
 // ══════════════════════════════════════════
 // HOME
 // ══════════════════════════════════════════
-const WEEKEND_DATE = new Date('2025-05-16T18:00:00'); // Pas dit aan!
+const WEEKEND_DATE = new Date('2026-04-17T20:00:00'); // Pas dit aan!
 
 function renderHome() {
   document.getElementById('tickerText').textContent = QUOTES_TICKER;
