@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>De Mol: Zatte Wijven – Gent Editie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #1a0a14;
+    --bg2:      #240e1c;
+    --bg3:      #2e1226;
+    --pink:     #e8517a;
+    --pink2:    #f27da0;
+    --pink3:    #fbb8cc;
+    --aperol:   #f4622a;
+    --aperol2:  #f9883f;
+    --gold:     #e8c97e;
+    --cream:    #fdf0e8;
+    --text:     #fde8f0;
+    --muted:    #b07090;
+    --border:   #3d1830;
+    --border2:  #5c2540;
+    --font-display: 'Playfair Display', serif;
+    --font-body:    'DM Sans', sans-serif;
+    --font-italic:  'Cormorant Garamond', serif;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle noise texture overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.4;
+  }
+
+  /* Pink bokeh bubbles */
+  .bokeh-wrap {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .bokeh {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.08;
+    animation: float-bokeh 12s ease-in-out infinite;
+  }
+  .bokeh:nth-child(1){ width:300px;height:300px;background:var(--pink);top:-80px;left:-50px;animation-delay:0s; }
+  .bokeh:nth-child(2){ width:200px;height:200px;background:var(--aperol);top:30%;right:-60px;animation-delay:3s; }
+  .bokeh:nth-child(3){ width:250px;height:250px;background:var(--pink2);bottom:20%;left:10%;animation-delay:6s; }
+  .bokeh:nth-child(4){ width:180px;height:180px;background:var(--gold);bottom:10%;right:20%;animation-delay:9s; }
+
+  @keyframes float-bokeh {
+    0%,100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(26,10,20,0.96);
+    border-top: 1px solid var(--border2);
+    display: flex;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+  }
+
+  nav button {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 9px;
+    padding: 10px 4px 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+  }
+
+  nav button .nav-icon { font-size: 19px; }
+  nav button.active { color: var(--pink2); }
+  nav button:active { opacity: 0.6; }
+
+  /* Active dot indicator */
+  nav button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    width: 4px; height: 4px;
+    background: var(--pink);
+    border-radius: 50%;
+  }
+
+  /* ─── PAGES ─── */
+  .page { display: none; min-height: 100vh; padding-bottom: 90px; position: relative; z-index: 1; }
+  .page.active { display: block; animation: slideUp 0.35s cubic-bezier(0.22,1,0.36,1); }
+
+  @keyframes slideUp {
+    from { opacity:0; transform: translateY(16px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ─── PAGE HEADER ─── */
+  .page-header {
+    padding: 48px 20px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(232,81,122,0.12) 0%, transparent 80%);
+  }
+
+  .page-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(32px,9vw,56px);
+    font-weight: 900;
+    color: var(--text);
+    position: relative;
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+
+  .page-header h1 em {
+    font-style: italic;
+    color: var(--pink2);
+  }
+
+  .page-header .subtitle {
+    font-family: var(--font-italic);
+    font-size: 14px;
+    font-style: italic;
+    color: var(--muted);
+    margin-top: 6px;
+    position: relative;
+    letter-spacing: 1px;
+  }
+
+  /* ─── WINE GLASS SVG LOGO ─── */
+  .wine-logo {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    animation: sway 4s ease-in-out infinite;
+    position: relative;
+    filter: drop-shadow(0 4px 20px rgba(232,81,122,0.5));
+  }
+
+  @keyframes sway {
+    0%,100% { transform: rotate(-4deg); }
+    50%      { transform: rotate(4deg); }
+  }
+
+  /* Liquid fill animation */
+  @keyframes fill-drip {
+    0%  { height: 0; opacity: 0; }
+    20% { opacity: 1; }
+    100%{ height: 18px; }
+  }
+
+  /* ─── HOME ─── */
+  #home .page-header {
+    padding: 56px 20px 32px;
+  }
+
+  .ticker-wrap {
+    background: linear-gradient(90deg, var(--bg2), rgba(36,14,28,0.8));
+    border-top: 1px solid var(--border2);
+    border-bottom: 1px solid var(--border2);
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    font-family: var(--font-italic);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--pink3);
+    letter-spacing: 0.5px;
+    animation: ticker 22s linear infinite;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(110vw); }
+    to   { transform: translateX(-100%); }
+  }
+
+  .weekend-status {
+    margin: 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .weekend-status::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--pink), var(--aperol), var(--gold));
+  }
+
+  .weekend-status h3 {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--pink2);
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+  }
+
+  .phase-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(61,24,48,0.5);
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .phase-item:last-child { border-bottom: none; }
+  .phase-item.done { color: var(--pink3); }
+  .phase-item.active-phase { color: var(--text); font-weight: 600; }
+
+  .phase-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border2);
+    flex-shrink: 0;
+  }
+
+  .phase-item.done .phase-dot { background: var(--pink); }
+  .phase-item.active-phase .phase-dot {
+    background: var(--pink);
+    box-shadow: 0 0 8px var(--pink);
+    animation: pulse-dot 1.5s infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,100% { box-shadow: 0 0 4px var(--pink); }
+    50%      { box-shadow: 0 0 12px var(--pink); }
+  }
+
+  .home-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 4px 16px 16px;
+  }
+
+  .home-btn {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 22px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top, rgba(232,81,122,0.07) 0%, transparent 70%);
+  }
+
+  .home-btn:active { transform: scale(0.96); border-color: var(--pink); }
+
+  .home-btn .btn-icon { font-size: 32px; }
+
+  .home-btn .btn-label {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  .home-btn .btn-sub {
+    font-family: var(--font-italic);
+    font-size: 12px;
+    font-style: italic;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  /* ─── KANDIDATEN ─── */
+  .kandidaat-grid { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+
+  .kandidaat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+    position: relative;
+  }
+
+  .kandidaat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--pink), var(--aperol));
+    border-radius: 3px 0 0 3px;
+  }
+
+  .kandidaat-card.afgevallen { opacity: 0.5; }
+  .kandidaat-card.afgevallen::before { background: var(--muted); }
+
+  .k-photo {
+    width: 88px;
+    min-height: 110px;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .k-photo img { width:100%;height:100%;object-fit:cover; }
+
+  .k-photo-upload {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .k-photo:hover .k-photo-upload,
+  .k-photo:active .k-photo-upload { opacity: 1; }
+  .k-photo-upload input { display: none; }
+
+  .k-info {
+    flex: 1;
+    padding: 14px 14px 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .k-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .k-bio {
+    font-family: var(--font-italic);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-top: 3px;
+  }
+
+  .k-status {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  .k-status.in-spel { background: rgba(232,201,126,0.12); color: var(--gold); border: 1px solid rgba(232,201,126,0.2); }
+  .k-status.afgevallen-badge { background: rgba(176,112,144,0.1); color: var(--muted); border: 1px solid var(--border2); }
+
+  .verdachte-bar {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .verdachte-label {
+    font-size: 9px;
+    color: var(--muted);
+    white-space: nowrap;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .verdachte-track {
+    flex: 1;
+    height: 5px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .verdachte-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--pink), var(--pink2));
+    border-radius: 3px;
+    transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  .verdachte-pct {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--pink3);
+    min-width: 28px;
+    text-align: right;
+  }
+
+  /* ─── TEST ─── */
+  .test-container { padding: 16px; }
+
+  .test-player-select {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .test-player-select label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  select, input[type="text"], input[type="password"], textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  select:focus, input:focus, textarea:focus {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 3px rgba(232,81,122,0.1);
+  }
+
+  .question-card {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .question-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--pink), transparent);
+  }
+
+  .q-number {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--pink);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .q-text {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 16px;
+  }
+
+  .options-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .option-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 14px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .option-btn .opt-letter {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--pink);
+    width: 18px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+
+  .option-btn.selected {
+    background: rgba(232,81,122,0.12);
+    border-color: var(--pink);
+    color: var(--text);
+  }
+
+  .option-btn:active { opacity: 0.75; }
+
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--pink), var(--aperol));
+    border: none;
+    border-radius: 12px;
+    padding: 17px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: white;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(232,81,122,0.3);
+  }
+
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:disabled { background: var(--bg3); color: var(--muted); box-shadow: none; }
+
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 13px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active { color: var(--pink2); border-bottom-color: var(--pink2); }
+
+  /* ─── RESULTATEN ─── */
+  .resultaten-container { padding: 16px; }
+
+  .score-board { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+  .score-row {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .score-row.rank-1 { border-color: rgba(232,201,126,0.4); }
+  .score-row.rank-1::before { content:''; position:absolute;inset:0;background:linear-gradient(90deg,rgba(232,201,126,0.06),transparent); }
+
+  .score-rank {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--muted);
+    width: 30px;
+    flex-shrink: 0;
+  }
+
+  .score-rank.first { color: var(--gold); }
+  .score-rank.last  { color: var(--pink); }
+
+  .score-name {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .score-pts {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pink3);
+  }
+
+  .score-bar-wrap { margin-top: 5px; width: 100%; }
+  .score-bar-track { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .score-bar-fill { height: 100%; background: linear-gradient(90deg, var(--pink), var(--aperol2)); border-radius: 2px; transition: width 0.8s cubic-bezier(0.34,1.56,0.64,1); }
+
+  .elimination-section {
+    background: linear-gradient(135deg, rgba(232,81,122,0.08), rgba(26,10,20,0.8));
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .elimination-section h3 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--pink2);
+    margin-bottom: 8px;
+  }
+
+  .elim-name {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 900;
+    font-style: italic;
+    color: var(--text);
+    display: block;
+    animation: flicker 5s infinite;
+  }
+
+  @keyframes flicker {
+    0%,100%{opacity:1} 94%{opacity:1} 95%{opacity:0.4} 96%{opacity:1} 98%{opacity:0.6} 99%{opacity:1}
+  }
+
+  .trigger-elim-btn {
+    width: 100%;
+    background: rgba(232,81,122,0.1);
+    border: 1px solid var(--pink);
+    border-radius: 12px;
+    padding: 14px;
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--pink2);
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .trigger-elim-btn:active { background: rgba(232,81,122,0.2); }
+
+  /* ─── OPDRACHTEN ─── */
+  .opdracht-card {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 18px;
+    margin: 0 16px 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .opdracht-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(ellipse, rgba(244,98,42,0.07) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .opdracht-number {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--aperol2);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .opdracht-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+
+  .opdracht-desc {
+    font-family: var(--font-italic);
+    font-size: 14px;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .opdracht-tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .tag-chaos { background: rgba(232,81,122,0.15); color: var(--pink3); border: 1px solid rgba(232,81,122,0.2); }
+  .tag-slim  { background: rgba(232,201,126,0.12); color: var(--gold);  border: 1px solid rgba(232,201,126,0.2); }
+  .tag-fun   { background: rgba(244,98,42,0.12);   color: var(--aperol2); border: 1px solid rgba(244,98,42,0.2); }
+  .tag-gent  { background: rgba(251,184,204,0.12); color: var(--pink2); border: 1px solid rgba(251,184,204,0.2); }
+
+  /* ─── PRE-GAME ─── */
+  .pregame-container { padding: 16px; }
+
+  .pregame-intro {
+    background: linear-gradient(135deg, rgba(244,98,42,0.1), rgba(232,81,122,0.08));
+    border: 1px solid rgba(244,98,42,0.25);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    font-family: var(--font-italic);
+    font-style: italic;
+    color: var(--aperol2);
+    font-size: 14px;
+    line-height: 1.65;
+    text-align: center;
+  }
+
+  .pregame-q {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+
+  .pregame-q .q-number { margin-bottom: 6px; }
+
+  .pregame-q textarea {
+    min-height: 72px;
+    resize: none;
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,4,8,0.96);
+    z-index: 200;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal-phase { animation: fadeIn 0.8s ease; }
+
+  .modal-big-text {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 11vw, 72px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1;
+    color: var(--pink2);
+    text-shadow: 0 0 40px rgba(232,81,122,0.6);
+    margin-bottom: 10px;
+  }
+
+  .modal-name {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 9vw, 58px);
+    font-weight: 900;
+    font-style: italic;
+    color: var(--text);
+    margin-bottom: 6px;
+    animation: flicker 3s infinite;
+  }
+
+  .modal-sub {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .modal-twist-text {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 7vw, 48px);
+    font-weight: 900;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .modal-twist-sub {
+    font-family: var(--font-italic);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--text);
+    opacity: 0.8;
+    line-height: 1.6;
+    max-width: 300px;
+    margin: 0 auto 40px;
+  }
+
+  .modal-close-btn {
+    background: linear-gradient(135deg, var(--pink), var(--aperol));
+    border: none;
+    border-radius: 30px;
+    padding: 14px 36px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(232,81,122,0.4);
+  }
+
+  .wine-glass-modal {
+    font-size: 60px;
+    margin-bottom: 20px;
+    animation: sway 3s ease-in-out infinite;
+    display: block;
+  }
+
+  /* ─── ADMIN ─── */
+  .admin-container { padding: 16px; }
+
+  .admin-lock {
+    text-align: center;
+    padding: 48px 20px;
+  }
+
+  .admin-lock .lock-icon { font-size: 56px; margin-bottom: 18px; display: block; }
+
+  .admin-lock h2 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--pink2);
+    margin-bottom: 24px;
+  }
+
+  .admin-form { display: flex; flex-direction: column; gap: 12px; max-width: 300px; margin: 0 auto; }
+
+  .admin-section {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+
+  .admin-section h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--pink2);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .admin-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 6px;
+    margin-top: 14px;
+    text-transform: uppercase;
+  }
+
+  .admin-label:first-child { margin-top: 0; }
+
+  .save-btn {
+    background: rgba(232,81,122,0.15);
+    border: 1px solid var(--pink);
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--pink2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 14px;
+    transition: all 0.2s;
+  }
+
+  .save-btn:active { background: rgba(232,81,122,0.25); }
+
+  .saved-msg {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-top: 6px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .saved-msg.show { opacity: 1; }
+
+  .inline-btn {
+    background: none;
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .inline-btn:active { border-color: var(--pink); color: var(--pink2); }
+
+  /* ─── SYNC STATUS ─── */
+  .sync-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--muted);
+    margin: 8px 16px;
+    font-weight: 500;
+  }
+
+  .sync-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: pulse-dot 2s infinite;
+  }
+
+  .sync-dot.offline { background: var(--pink); animation: none; }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-80px);
+    background: linear-gradient(135deg, var(--pink), var(--aperol));
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 12px 22px;
+    border-radius: 30px;
+    z-index: 300;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    white-space: nowrap;
+    box-shadow: 0 6px 24px rgba(232,81,122,0.4);
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ─── MISC ─── */
+  .empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--muted);
+    font-family: var(--font-italic);
+    font-style: italic;
+    font-size: 15px;
+  }
+
+  .empty-state .es-icon { font-size: 44px; margin-bottom: 12px; display: block; }
+
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border2), transparent);
+    margin: 8px 16px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity:0; transform: translateY(10px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  @media (min-width: 480px) {
+    .home-grid { grid-template-columns: 1fr 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bokeh-wrap">
+  <div class="bokeh"></div>
+  <div class="bokeh"></div>
+  <div class="bokeh"></div>
+  <div class="bokeh"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ELIMINATION MODAL -->
+<div class="modal-overlay" id="elimModal">
+  <div class="modal-phase" id="elimPhase1">
+    <span class="wine-glass-modal">🍷</span>
+    <div class="modal-big-text">AFGEVALLEN</div>
+    <div class="modal-name" id="elimName">NAAM</div>
+    <div class="modal-sub">Valt uit de Mol — Gent Editie</div>
+    <button class="modal-close-btn" onclick="showTwist()">Maar wacht… →</button>
+  </div>
+  <div class="modal-phase" id="elimPhase2" style="display:none">
+    <span class="wine-glass-modal">🥂</span>
+    <div class="modal-twist-text">Of toch niet?! 😏</div>
+    <div class="modal-twist-sub">Je mag in het spel blijven… voor nu.<br>De Mol drinkt al een tweede glas. Jij weet niets.</div>
+    <button class="modal-close-btn" onclick="closeModal()">Sluit 🍸</button>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="page active" id="home">
+  <div class="page-header">
+    <div class="wine-logo">
+      <svg viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Glass stem -->
+        <rect x="29" y="56" width="6" height="16" rx="3" fill="#5c2540"/>
+        <!-- Glass base -->
+        <ellipse cx="32" cy="74" rx="14" ry="4" fill="#5c2540"/>
+        <!-- Glass bowl outline -->
+        <path d="M12 8 Q12 52 32 54 Q52 52 52 8 Z" fill="none" stroke="#e8517a" stroke-width="2"/>
+        <!-- Liquid fill (aperol/wine colour) -->
+        <clipPath id="bowl-clip">
+          <path d="M12 8 Q12 52 32 54 Q52 52 52 8 Z"/>
+        </clipPath>
+        <rect x="12" y="32" width="40" height="24" fill="#e8517a" opacity="0.7" clip-path="url(#bowl-clip)"/>
+        <!-- Bubble highlights -->
+        <circle cx="22" cy="38" r="2" fill="rgba(255,255,255,0.3)"/>
+        <circle cx="38" cy="44" r="1.5" fill="rgba(255,255,255,0.25)"/>
+        <circle cx="28" cy="42" r="1" fill="rgba(255,255,255,0.2)"/>
+        <!-- Glass shine -->
+        <path d="M16 14 Q16 28 20 36" stroke="rgba(255,255,255,0.18)" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1>De Mol<br><em>Zatte Wijven</em></h1>
+    <div class="subtitle">Gent Editie — Weekend van verdacht zijn</div>
+  </div>
+
+  <div class="sync-status" id="syncStatus">
+    <div class="sync-dot" id="syncDot"></div>
+    <span id="syncText">Verbinden met gedeelde data...</span>
+  </div>
+
+  <div class="ticker-wrap">
+    <span class="ticker-inner" id="tickerText">Laden...</span>
+  </div>
+
+  <div style="height:12px"></div>
+
+  <div class="weekend-status" id="weekendStatus">
+    <h3>🗓 Weekend Status</h3>
+    <div class="phase-item active-phase" id="phase-vrijdag">
+      <div class="phase-dot"></div> <strong>Vrijdagavond</strong>&nbsp;— Test Ronde 1
+    </div>
+    <div class="phase-item" id="phase-zaterdag">
+      <div class="phase-dot"></div> <strong>Zaterdagavond</strong>&nbsp;— Eliminatie + Test Ronde 2
+    </div>
+    <div class="phase-item" id="phase-finale">
+      <div class="phase-dot"></div> <strong>Finale</strong>&nbsp;— De Mol onthuld 🍾
+    </div>
+  </div>
+
+  <div class="home-grid">
+    <div class="home-btn" onclick="goTo('kandidaten')">
+      <div class="btn-icon">💅</div>
+      <div class="btn-label">Kandidaten</div>
+      <div class="btn-sub">Wie vertrouw jij?</div>
+    </div>
+    <div class="home-btn" onclick="goTo('opdrachten')">
+      <div class="btn-icon">🍹</div>
+      <div class="btn-label">Opdrachten</div>
+      <div class="btn-sub">Chaos & sabotage</div>
+    </div>
+    <div class="home-btn" onclick="goTo('test')">
+      <div class="btn-icon">📝</div>
+      <div class="btn-label">De Test</div>
+      <div class="btn-sub">Wie is de Mol?</div>
+    </div>
+    <div class="home-btn" onclick="goTo('resultaten')">
+      <div class="btn-icon">🏆</div>
+      <div class="btn-label">Scores</div>
+      <div class="btn-sub">& Eliminatie</div>
+    </div>
+    <div class="home-btn" onclick="goTo('pregame')">
+      <div class="btn-icon">🎭</div>
+      <div class="btn-label">Pre-Game</div>
+      <div class="btn-sub">Gênante vragen</div>
+    </div>
+    <div class="home-btn" onclick="goTo('admin')">
+      <div class="btn-icon">🔒</div>
+      <div class="btn-label">Admin</div>
+      <div class="btn-sub">Alleen voor de Mol</div>
+    </div>
+  </div>
+</div>
+
+<!-- KANDIDATEN -->
+<div class="page" id="kandidaten">
+  <div class="page-header">
+    <h1><em>Kandidaten</em></h1>
+    <div class="subtitle">5 spelers — 1 is de Mol</div>
+  </div>
+  <div class="kandidaat-grid" id="kandidaatGrid"></div>
+</div>
+
+<!-- OPDRACHTEN -->
+<div class="page" id="opdrachten">
+  <div class="page-header">
+    <h1><em>Opdrachten</em></h1>
+    <div class="subtitle">Gent Editie — chaos of samenwerking?</div>
+  </div>
+  <div style="height:8px"></div>
+  <div id="opdrachtenList"></div>
+</div>
+
+<!-- TEST -->
+<div class="page" id="test">
+  <div class="page-header">
+    <h1>De <em>Test</em></h1>
+    <div class="subtitle">Wie is de Mol?</div>
+  </div>
+  <div class="test-container">
+    <div class="test-player-select">
+      <label>Wie ben jij?</label>
+      <select id="testPlayerSelect">
+        <option value="">— Selecteer jezelf —</option>
+      </select>
+    </div>
+    <div id="testForm"></div>
+    <button class="submit-btn" id="submitTestBtn" onclick="submitTest()" disabled>Inzenden 💌</button>
+  </div>
+</div>
+
+<!-- RESULTATEN -->
+<div class="page" id="resultaten">
+  <div class="page-header">
+    <h1><em>Resultaten</em></h1>
+    <div class="subtitle">De waarheid ontvouwt zich</div>
+  </div>
+  <div class="resultaten-container">
+    <div id="resultatenContent"></div>
+  </div>
+</div>
+
+<!-- PRE-GAME -->
+<div class="page" id="pregame">
+  <div class="page-header">
+    <h1>Pre-<em>Game</em></h1>
+    <div class="subtitle">Gênante bekentenissen</div>
+  </div>
+  <div class="pregame-container">
+    <div class="pregame-intro">
+      🍷 Alle antwoorden worden bewaard en <em>kunnen</em> worden gebruikt tijdens het weekend.<br>Je bent gewaarschuwd. De Mol leest mee.
+    </div>
+    <div class="test-player-select">
+      <label>Wie ben jij?</label>
+      <select id="pregamePlayerSelect">
+        <option value="">— Selecteer jezelf —</option>
+      </select>
+    </div>
+    <div id="pregameForm"></div>
+    <button class="submit-btn" id="submitPregameBtn" onclick="submitPregame()" disabled>Bekentenissen opslaan 🔏</button>
+    <div style="height:16px"></div>
+    <button class="inline-btn" onclick="toggleAllAnswers()" style="width:100%;text-align:center">Alle antwoorden bekijken 👁</button>
+    <div id="allAnswersView"></div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="page" id="admin">
+  <div class="page-header">
+    <h1><em>Admin</em></h1>
+    <div class="subtitle">Beperkte toegang</div>
+  </div>
+  <div class="admin-container">
+    <div class="admin-lock" id="adminLock">
+      <span class="lock-icon">🔒</span>
+      <h2>Admin Toegang</h2>
+      <div class="admin-form">
+        <input type="password" id="adminPwInput" placeholder="Wachtwoord..." onkeydown="if(event.key==='Enter')checkAdminPw()">
+        <button class="submit-btn" onclick="checkAdminPw()">Inloggen 🔑</button>
+      </div>
+      <div style="margin-top:12px;font-size:11px;color:var(--muted);">Standaard: mol2024</div>
+    </div>
+    <div id="adminPanel" style="display:none"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <button class="active" onclick="goTo('home')" data-page="home">
+    <span class="nav-icon">🏠</span>Home
+  </button>
+  <button onclick="goTo('kandidaten')" data-page="kandidaten">
+    <span class="nav-icon">💅</span>Spelers
+  </button>
+  <button onclick="goTo('test')" data-page="test">
+    <span class="nav-icon">📝</span>Test
+  </button>
+  <button onclick="goTo('resultaten')" data-page="resultaten">
+    <span class="nav-icon">🏆</span>Scores
+  </button>
+  <button onclick="goTo('admin')" data-page="admin">
+    <span class="nav-icon">🔒</span>Admin
+  </button>
+</nav>
+
+<script>
+// ══════════════════════════════════════════
+// STORAGE — shared via window.storage API
+// Falls back to localStorage if not available
+// ══════════════════════════════════════════
+
+const STORAGE_KEY = 'demol_zatte_wijven_state';
+
+async function loadSharedState() {
+  try {
+    const result = await window.storage.get(STORAGE_KEY, true); // shared=true
+    if (result && result.value) {
+      return JSON.parse(result.value);
+    }
+  } catch(e) {
+    // fallback: try local
+    try {
+      const local = localStorage.getItem(STORAGE_KEY);
+      if (local) return JSON.parse(local);
+    } catch(e2) {}
+  }
+  return null;
+}
+
+async function saveSharedState(s) {
+  const data = JSON.stringify(s);
+  let saved = false;
+  try {
+    await window.storage.set(STORAGE_KEY, data, true); // shared=true
+    saved = true;
+  } catch(e) {}
+  // also save locally as backup
+  try { localStorage.setItem(STORAGE_KEY, data); } catch(e) {}
+  return saved;
+}
+
+// ══════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════
+
+const DEFAULT_PLAYERS = [
+  { id:'p1', name:'Speler 1', bio:'Mysterieus. Bestelt altijd een aperol spriz voor ze gaat zitten. Altijd de laatste om te vertrekken.', emoji:'🍊', photo:null },
+  { id:'p2', name:'Speler 2', bio:'Te lief om de Mol te zijn. Of net daarom. Weet altijd de kortste weg naar de Dreupelkot.', emoji:'🍷', photo:null },
+  { id:'p3', name:'Speler 3', bio:'Claimt dat ze niets weet. Maar haar ogen zeggen iets anders bij elke opdracht.', emoji:'👀', photo:null },
+  { id:'p4', name:'Speler 4', bio:'Saboteert alles, ook haar eigen leven. Ideale Mol-kandidaat. Thuisvoelend in de Vooruit.', emoji:'🔥', photo:null },
+  { id:'p5', name:'Speler 5', bio:'Stelt te veel vragen. Of net te weinig. Verdacht aanwezig bij elke sabotagepogning.', emoji:'🕵️', photo:null },
+];
+
+const DEFAULT_TEST_QUESTIONS = [
+  { id:'q1', text:'Wie is de Mol?', options:['Speler 1','Speler 2','Speler 3','Speler 4','Speler 5'], correctIndex:null },
+  { id:'q2', text:'Wie saboteerde de eerste opdracht het meest?', options:['Speler 1','Speler 2','Speler 3','Speler 4','Speler 5'], correctIndex:null },
+  { id:'q3', text:'Wie vertrouwde je het minst tijdens ronde 1?', options:['Speler 1','Speler 2','Speler 3','Speler 4','Speler 5'], correctIndex:null },
+  { id:'q4', text:'Wie vertoonde het meest verdacht gedrag?', options:['Speler 1','Speler 2','Speler 3','Speler 4','Speler 5'], correctIndex:null },
+  { id:'q5', text:'In welk café saboteerde de Mol de groepsopdracht?', options:['Gruut Brewery','Dreupelkot','Waterhuis aan de Bierkant','Het Spijker'], correctIndex:null },
+  { id:'q6', text:'Hoe kleedde de Mol zich op vrijdagavond?', options:['Rood','Zwart','Roze','Paars'], correctIndex:null },
+];
+
+const PREGAME_QUESTIONS = [
+  'Wat is je grootste red flag als vriendin?',
+  'Wat is het domste dat je ooit hebt gedaan na een avond in Gent?',
+  'Wie van de groep zou als eerste eruit gevlogen worden en waarom?',
+  'Wat is je meest toxische trait?',
+  'Met wie van de groep zou je trouwen voor geld?',
+  'Wat is je go-to leugen als je te laat bent?',
+  'Wanneer heb je voor het laast gedronken en wat?',
+  'Wat is je guilty pleasure dat niemand mag weten?',
+  'Wie vertrouw je hier het minst en waarom?',
+  'Wat zou jij doen als je de Mol was?',
+];
+
+const OPDRACHTEN = [
+  {
+    number:'01',
+    title:'DREUPELKOT BLINDPROEVEN',
+    desc:'In de stijl van het iconische Dreupelkot: proef blind 5 jenever- of likeurshotjes en raad de naam. De Mol mag expres fout raden en mag zelfs hints verzinnen. Hoogste score = meeste punten. De verliezer trakteert de volgende ronde.',
+    tags:['GENT','FUN','CHAOS']
+  },
+  {
+    number:'02',
+    title:'GRAVENSTEEN ALIBI',
+    desc:'Scenario: er is iets gestolen van het Gravensteen. Iedereen krijgt een verdacht moment toegewezen. Bedenk een overtuigend alibi voor waar je "was". Ondervraag mekaar. De beste leugenaar wint punten — de Mol krijgt 2 levens.',
+    tags:['SLIM','GENT','FUN']
+  },
+  {
+    number:'03',
+    title:'STADSGEHEIMEN',
+    desc:'Iedereen schrijft één echt geheim op een papiertje — over zichzelf, een kroeg of een avondje Gent. De Mol mag liegen. Voorlezen en raden wie wat schreef. Fout geraden = shot.',
+    tags:['CHAOS','FUN']
+  },
+  {
+    number:'04',
+    title:'DE TELEFOONTEST',
+    desc:'Geef je gsm 2 minuten aan de persoon rechts van je. Wat ontdekken ze? Iedereen deelt één finding. De Mol kiest welke finding gedeeld wordt met de hele groep. Kan resulteren in publieke vernedering.',
+    tags:['CHAOS']
+  },
+  {
+    number:'05',
+    title:'WATERZOOI WAARHEID',
+    desc:'Klassieke waarheid of dare, maar elk antwoord moet beginnen met een Gentse referentie (kroeg, straat, evenement). De Mol mag 2 vragen negeren zonder reden. Elke pass = een aperolshotje voor jezelf.',
+    tags:['FUN','CHAOS','GENT']
+  },
+  {
+    number:'06',
+    title:'GENTSE FEESTENAVOND',
+    desc:'Rangschik de groep van "meest gevaarlijk op een avondje uit" tot "saai en vroeg thuis". Vergelijk de resultaten samen. De mol herschikt stiekem haar antwoorden vóór het vergelijkingsmoment.',
+    tags:['SLIM','CHAOS','GENT']
+  },
+  {
+    number:'07',
+    title:'KORENMARKT CHALLENGE',
+    desc:'Elk duo krijgt een foto van een plek in Gent (kroeg, brugje, muurschildering). Eerste duo dat ter plaatse een foto maakt en instuurt wint. De Mol mag expres de verkeerde kant op sturen.',
+    tags:['GENT','SLIM','FUN']
+  },
+  {
+    number:'08',
+    title:'APEROL-COCKTAIL WEDSTRIJD',
+    desc:'Maak met de ingrediënten in huis een originele "Zatte Wijven"-cocktail. Naam, presentatie en smaak worden beoordeeld. De Mol is geheime jury. Haar keuze is definitief — en verdacht.',
+    tags:['FUN','CHAOS']
+  },
+];
+
+const QUOTES = [
+  '🍷 Niemand is onschuldig. ✦ De Mol drinkt altijd het eerste glas. ✦ Gent, 2024. Vijf vriendinnen. Eén verrader. ✦ Ze lacht te hard bij elke opdracht. Verdacht. ✦ Vertrouwen is voor mensen die nog nuchter zijn. ✦ De Mol bestelt altijd een tweede aperol. ✦ De Korenmarkt liegt niet — mensen wel. ✦ Wie het Dreupelkot ontwijkt heeft iets te verbergen. 🍊'
+];
+
+function defaultState() {
+  return {
+    players: JSON.parse(JSON.stringify(DEFAULT_PLAYERS)),
+    testQuestions: JSON.parse(JSON.stringify(DEFAULT_TEST_QUESTIONS)),
+    testAnswers: {},
+    pregameAnswers: {},
+    molId: null,
+    adminPw: 'mol2024',
+    currentRound: 1,
+    eliminations: [],
+    phase: 0,
+    lastUpdated: Date.now(),
+    updatedBy: ''
+  };
+}
+
+let state = defaultState();
+let adminUnlocked = false;
+let currentTestAnswers = {};
+let currentPregameAnswers = [];
+let syncInterval = null;
+let isSharedMode = false;
+
+// ══════════════════════════════════════════
+// SYNC
+// ══════════════════════════════════════════
+async function initSync() {
+  const dot  = document.getElementById('syncDot');
+  const text = document.getElementById('syncText');
+
+  // Check if shared storage available
+  if (typeof window.storage === 'undefined') {
+    dot.classList.add('offline');
+    text.textContent = 'Lokale opslag (geen sync)';
+    // Use localStorage
+    const local = localStorage.getItem(STORAGE_KEY);
+    if (local) state = { ...defaultState(), ...JSON.parse(local) };
+    renderAll();
+    return;
+  }
+
+  isSharedMode = true;
+  const loaded = await loadSharedState();
+  if (loaded) {
+    state = { ...defaultState(), ...loaded };
+    text.textContent = 'Gesynchroniseerd — iedereen deelt data ✓';
+  } else {
+    // First time — save defaults
+    await saveSharedState(state);
+    text.textContent = 'Nieuwe sessie aangemaakt ✨';
+  }
+
+  renderAll();
+
+  // Poll for updates every 8s
+  syncInterval = setInterval(async () => {
+    try {
+      const fresh = await loadSharedState();
+      if (fresh && fresh.lastUpdated > state.lastUpdated) {
+        const prevPhase = state.phase;
+        state = { ...defaultState(), ...fresh };
+        text.textContent = '🔄 Data bijgewerkt: ' + new Date(state.lastUpdated).toLocaleTimeString('nl-BE');
+        renderCurrentPage();
+      }
+    } catch(e) {}
+  }, 8000);
+}
+
+async function pushState() {
+  state.lastUpdated = Date.now();
+  const saved = await saveSharedState(state);
+  if (saved && isSharedMode) {
+    showToast('Opgeslagen & gesynchroniseerd ✓');
+  } else {
+    showToast('Opgeslagen ✓');
+  }
+}
+
+function renderAll() {
+  renderHome();
+}
+
+function renderCurrentPage() {
+  const active = document.querySelector('.page.active');
+  if (!active) return;
+  const id = active.id;
+  if (id === 'home') renderHome();
+  else if (id === 'kandidaten') renderKandidaten();
+  else if (id === 'test') renderTest();
+  else if (id === 'resultaten') renderResultaten();
+  else if (id === 'opdrachten') renderOpdrachten();
+  else if (id === 'pregame') renderPregame();
+  else if (id === 'admin' && adminUnlocked) renderAdmin();
+}
+
+// ══════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════
+function goTo(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => {
+    b.classList.toggle('active', b.dataset.page === page);
+  });
+  const el = document.getElementById(page);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+
+  if (page === 'kandidaten') renderKandidaten();
+  if (page === 'test') renderTest();
+  if (page === 'resultaten') renderResultaten();
+  if (page === 'admin' && adminUnlocked) renderAdmin();
+  if (page === 'opdrachten') renderOpdrachten();
+  if (page === 'pregame') renderPregame();
+  if (page === 'home') renderHome();
+}
+
+// ══════════════════════════════════════════
+// HOME
+// ══════════════════════════════════════════
+function renderHome() {
+  document.getElementById('tickerText').textContent = QUOTES[0];
+
+  const phases = ['phase-vrijdag','phase-zaterdag','phase-finale'];
+  phases.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.className = 'phase-item';
+    if (i < state.phase) el.classList.add('done');
+    else if (i === state.phase) el.classList.add('active-phase');
+  });
+}
+
+// ══════════════════════════════════════════
+// KANDIDATEN
+// ══════════════════════════════════════════
+function renderKandidaten() {
+  const grid = document.getElementById('kandidaatGrid');
+  const suspicion = calcSuspicion();
+
+  grid.innerHTML = state.players.map(p => {
+    const susp = suspicion[p.id] || 0;
+    const isAfg = state.eliminations.includes(p.id);
+    return `
+    <div class="kandidaat-card ${isAfg ? 'afgevallen' : ''}">
+      <div class="k-photo" onclick="triggerPhotoUpload('${p.id}')">
+        ${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : `<span>${p.emoji}</span>`}
+        <div class="k-photo-upload">📷<input type="file" accept="image/*" id="photoInput_${p.id}" onchange="handlePhotoUpload(event,'${p.id}')"></div>
+      </div>
+      <div class="k-info">
+        <div class="k-name">${p.name}</div>
+        <div class="k-bio">${p.bio}</div>
+        <span class="k-status ${isAfg ? 'afgevallen-badge' : 'in-spel'}">${isAfg ? '🚫 Afgevallen' : '✨ In het spel'}</span>
+        <div class="verdachte-bar">
+          <div class="verdachte-label">Verdacht</div>
+          <div class="verdachte-track"><div class="verdachte-fill" style="width:${susp}%"></div></div>
+          <div class="verdachte-pct">${susp}%</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function triggerPhotoUpload(pid) {
+  document.getElementById(`photoInput_${pid}`)?.click();
+}
+
+function handlePhotoUpload(event, pid) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async e => {
+    const p = state.players.find(x => x.id === pid);
+    if (p) { p.photo = e.target.result; await pushState(); renderKandidaten(); }
+  };
+  reader.readAsDataURL(file);
+}
+
+function calcSuspicion() {
+  const counts = {};
+  state.players.forEach(p => counts[p.id] = 0);
+  Object.values(state.testAnswers).forEach(rounds => {
+    Object.values(rounds).forEach(answers => {
+      const molAns = answers['q1'];
+      if (molAns !== undefined && molAns !== null) {
+        const pid = state.players[molAns]?.id;
+        if (pid) counts[pid] = (counts[pid] || 0) + 1;
+      }
+    });
+  });
+  const max = Math.max(...Object.values(counts), 1);
+  const result = {};
+  Object.entries(counts).forEach(([k,v]) => result[k] = Math.round((v/max)*100));
+  return result;
+}
+
+// ══════════════════════════════════════════
+// OPDRACHTEN
+// ══════════════════════════════════════════
+function renderOpdrachten() {
+  const list = document.getElementById('opdrachtenList');
+  const tagClass = t => {
+    if (t === 'CHAOS') return 'tag-chaos';
+    if (t === 'SLIM') return 'tag-slim';
+    if (t === 'GENT') return 'tag-gent';
+    return 'tag-fun';
+  };
+  list.innerHTML = OPDRACHTEN.map(o => `
+    <div class="opdracht-card">
+      <div class="opdracht-number">Opdracht ${o.number}</div>
+      <div class="opdracht-title">${o.title}</div>
+      <div class="opdracht-desc">${o.desc}</div>
+      <div class="opdracht-tags">${o.tags.map(t => `<span class="tag ${tagClass(t)}">${t}</span>`).join('')}</div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════
+// TEST
+// ══════════════════════════════════════════
+function renderTest() {
+  const sel = document.getElementById('testPlayerSelect');
+  sel.innerHTML = '<option value="">— Selecteer jezelf —</option>' +
+    state.players.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+  sel.onchange = () => loadTestForm(sel.value);
+
+  document.getElementById('testForm').innerHTML = '';
+  document.getElementById('submitTestBtn').disabled = true;
+}
+
+function loadTestForm(pid) {
+  const form = document.getElementById('testForm');
+  if (!pid) { form.innerHTML = ''; document.getElementById('submitTestBtn').disabled = true; return; }
+
+  const round = state.currentRound;
+  const existing = state.testAnswers[pid]?.[round] || {};
+  currentTestAnswers = { ...existing };
+
+  const letters = ['A','B','C','D','E'];
+
+  form.innerHTML = state.testQuestions.map((q, qi) => {
+    const opts = ['q1','q2','q3','q4'].includes(q.id)
+      ? state.players.map(p => p.name)
+      : q.options;
+
+    const selectedIdx = currentTestAnswers[q.id];
+
+    return `
+    <div class="question-card">
+      <div class="q-number">Vraag ${qi+1}</div>
+      <div class="q-text">${q.text}</div>
+      <div class="options-list">
+        ${opts.map((opt, oi) => `
+          <button class="option-btn ${selectedIdx === oi ? 'selected' : ''}" onclick="selectTestAnswer('${q.id}', ${oi}, this)">
+            <span class="opt-letter">${letters[oi] || oi+1}</span>
+            <span>${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  checkTestComplete();
+}
+
+function selectTestAnswer(qId, optIdx, btn) {
+  currentTestAnswers[qId] = optIdx;
+  const card = btn.closest('.question-card');
+  card.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  checkTestComplete();
+}
+
+function checkTestComplete() {
+  const needed = state.testQuestions.length;
+  const filled = Object.keys(currentTestAnswers).length;
+  document.getElementById('submitTestBtn').disabled = filled < needed;
+}
+
+async function submitTest() {
+  const pid = document.getElementById('testPlayerSelect').value;
+  if (!pid) return;
+  const round = state.currentRound;
+  if (!state.testAnswers[pid]) state.testAnswers[pid] = {};
+  state.testAnswers[pid][round] = { ...currentTestAnswers };
+  await pushState();
+  renderResultaten();
+  goTo('resultaten');
+}
+
+// ══════════════════════════════════════════
+// RESULTATEN
+// ══════════════════════════════════════════
+function renderResultaten() {
+  const c = document.getElementById('resultatenContent');
+
+  // Calculate scores
+  const scores = {};
+  state.players.forEach(p => scores[p.id] = { name:p.name, emoji:p.emoji, total:0, rounds:{} });
+
+  state.players.forEach(p => {
+    const rounds = state.testAnswers[p.id] || {};
+    let total = 0;
+    Object.entries(rounds).forEach(([round, answers]) => {
+      let pts = 0;
+      state.testQuestions.forEach(q => {
+        if (q.correctIndex !== null && answers[q.id] === q.correctIndex) pts++;
+      });
+      scores[p.id].rounds[round] = pts;
+      total += pts;
+    });
+    scores[p.id].total = total;
+  });
+
+  const sorted = Object.entries(scores)
+    .sort((a,b) => b[1].total - a[1].total)
+    .filter(([pid]) => !state.eliminations.includes(pid));
+
+  const eliminated = state.players.filter(p => state.eliminations.includes(p.id));
+  const maxScore = Math.max(...sorted.map(([,s]) => s.total), 1);
+
+  let html = '';
+
+  // Score board
+  if (sorted.length > 0) {
+    html += `<div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;padding:0 4px">🏆 Scorebord — Ronde ${state.currentRound}</div>`;
+    html += `<div class="score-board">`;
+    sorted.forEach(([pid, s], i) => {
+      const rank = i+1;
+      const rankClass = rank===1 ? 'first' : rank===sorted.length ? 'last' : '';
+      const barW = maxScore > 0 ? Math.round((s.total/maxScore)*100) : 0;
+      html += `
+      <div class="score-row ${rank===1?'rank-1':''}">
+        <div class="score-rank ${rankClass}">${rank}</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="score-name">${s.name}</div>
+            <div class="score-pts">${s.total} pt</div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:${barW}%"></div></div>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<div class="empty-state"><span class="es-icon">📝</span>Nog geen tests ingestuurd.</div>`;
+  }
+
+  // Eliminated
+  if (eliminated.length > 0) {
+    html += `<div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin:20px 0 12px;padding:0 4px">💀 Afgevallen</div>`;
+    html += `<div class="elimination-section">`;
+    eliminated.forEach(p => {
+      html += `<span class="elim-name">${p.name}</span>`;
+    });
+    html += `</div>`;
+  }
+
+  // Trigger elimination buttons for active players
+  html += `<div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin:20px 0 12px;padding:0 4px">🎭 Elimineer een speler</div>`;
+  state.players
+    .filter(p => !state.eliminations.includes(p.id))
+    .forEach(p => {
+      html += `<button class="trigger-elim-btn" onclick="triggerElimination('${p.id}')">❌ Elimineer ${p.name}</button>`;
+    });
+
+  c.innerHTML = html;
+}
+
+function triggerElimination(pid) {
+  const p = state.players.find(x => x.id === pid);
+  if (!p) return;
+  document.getElementById('elimName').textContent = p.name;
+  document.getElementById('elimPhase1').style.display = 'block';
+  document.getElementById('elimPhase2').style.display = 'none';
+  document.getElementById('elimModal').classList.add('show');
+  // Actually mark as eliminated
+  if (!state.eliminations.includes(pid)) {
+    state.eliminations.push(pid);
+    pushState();
+  }
+}
+
+function showTwist() {
+  document.getElementById('elimPhase1').style.display = 'none';
+  document.getElementById('elimPhase2').style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('elimModal').classList.remove('show');
+  renderResultaten();
+}
+
+// ══════════════════════════════════════════
+// PRE-GAME
+// ══════════════════════════════════════════
+function renderPregame() {
+  const sel = document.getElementById('pregamePlayerSelect');
+  sel.innerHTML = '<option value="">— Selecteer jezelf —</option>' +
+    state.players.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+  sel.onchange = () => loadPregameForm(sel.value);
+  document.getElementById('pregameForm').innerHTML = '';
+  document.getElementById('submitPregameBtn').disabled = true;
+}
+
+function loadPregameForm(pid) {
+  if (!pid) { document.getElementById('pregameForm').innerHTML = ''; document.getElementById('submitPregameBtn').disabled = true; return; }
+  const existing = state.pregameAnswers[pid] || Array(PREGAME_QUESTIONS.length).fill('');
+  currentPregameAnswers = [...existing];
+
+  const form = document.getElementById('pregameForm');
+  form.innerHTML = PREGAME_QUESTIONS.map((q, i) => `
+    <div class="pregame-q">
+      <div class="q-number">Vraag ${i+1}</div>
+      <div class="q-text" style="font-family:var(--font-display);font-size:16px;font-weight:700">${q}</div>
+      <textarea placeholder="Jouw eerlijke antwoord..." oninput="currentPregameAnswers[${i}]=this.value;checkPregameComplete()">${existing[i] || ''}</textarea>
+    </div>
+  `).join('');
+
+  checkPregameComplete();
+}
+
+function checkPregameComplete() {
+  const filled = currentPregameAnswers.filter(a => a && a.trim()).length;
+  document.getElementById('submitPregameBtn').disabled = filled < PREGAME_QUESTIONS.length;
+}
+
+async function submitPregame() {
+  const pid = document.getElementById('pregamePlayerSelect').value;
+  if (!pid) return;
+  state.pregameAnswers[pid] = [...currentPregameAnswers];
+  await pushState();
+}
+
+let allAnswersVisible = false;
+function toggleAllAnswers() {
+  allAnswersVisible = !allAnswersVisible;
+  const view = document.getElementById('allAnswersView');
+  if (!allAnswersVisible) { view.innerHTML = ''; return; }
+
+  let html = '';
+  state.players.forEach(p => {
+    const ans = state.pregameAnswers[p.id];
+    if (!ans || ans.every(a => !a)) return;
+    html += `<div style="margin-top:18px;padding:16px;background:var(--bg2);border:1px solid var(--border2);border-radius:12px">
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:900;font-style:italic;color:var(--pink2);margin-bottom:10px">${p.name}</div>`;
+    PREGAME_QUESTIONS.forEach((q, i) => {
+      if (!ans[i]) return;
+      html += `<div style="padding:10px 0;border-bottom:1px solid rgba(61,24,48,0.5)">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:1px;margin-bottom:4px;text-transform:uppercase">${q}</div>
+        <div style="font-family:var(--font-italic);font-style:italic;color:var(--gold);font-size:15px">${ans[i]}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  if (!html) html = `<div class="empty-state"><span class="es-icon">🤐</span>Nog niemand ingevuld.</div>`;
+  view.innerHTML = html;
+}
+
+// ══════════════════════════════════════════
+// ADMIN
+// ══════════════════════════════════════════
+function checkAdminPw() {
+  const pw = document.getElementById('adminPwInput').value;
+  if (pw === state.adminPw) {
+    adminUnlocked = true;
+    document.getElementById('adminLock').style.display = 'none';
+    renderAdmin();
+    document.getElementById('adminPanel').style.display = 'block';
+  } else {
+    showToast('Fout wachtwoord 🚫');
+    document.getElementById('adminPwInput').value = '';
+  }
+}
+
+function renderAdmin() {
+  const panel = document.getElementById('adminPanel');
+
+  const playerOpts = state.players.map(p =>
+    `<option value="${p.id}" ${state.molId===p.id?'selected':''}>${p.name}</option>`
+  ).join('');
+
+  const phaseOpts = ['Vrijdagavond (Ronde 1)','Zaterdagavond (Ronde 2)','Finale 🍾'].map((label, i) =>
+    `<option value="${i}" ${i===state.phase?'selected':''}>${label}</option>`
+  ).join('');
+
+  const roundOpts = [1,2,3].map(r =>
+    `<option value="${r}" ${r===state.currentRound?'selected':''}>${r}</option>`
+  ).join('');
+
+  let html = `
+  <div style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:1px;margin-bottom:16px;text-align:center">
+    ${isSharedMode ? '🌐 Gedeelde modus — alle wijzigingen zijn zichtbaar voor iedereen' : '📱 Lokale modus — gebruik gedeelde opslag voor meerdere toestellen'}
+  </div>
+
+  <div class="admin-section">
+    <h3>🎭 Mol instellen</h3>
+    <span class="admin-label">De Mol is:</span>
+    <select id="molSelect">${playerOpts}<option value="">— Nog niet ingesteld —</option></select>
+    <button class="save-btn" onclick="saveMol()">Opslaan</button>
+    <div class="saved-msg" id="molSaved">✓ Opgeslagen</div>
+  </div>
+
+  <div class="admin-section">
+    <h3>📋 Spelerstatus</h3>
+    ${state.players.map(p => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(61,24,48,0.5)">
+      <div style="font-family:var(--font-display);font-size:17px;font-weight:700">${p.emoji} ${p.name}</div>
+      <div style="display:flex;gap:8px">
+        <button class="inline-btn" onclick="setPlayerStatus('${p.id}','in-spel')" style="${!state.eliminations.includes(p.id)?'border-color:var(--pink);color:var(--pink2)':''}">✓ In spel</button>
+        <button class="inline-btn" onclick="setPlayerStatus('${p.id}','afgevallen')" style="${state.eliminations.includes(p.id)?'border-color:var(--pink);color:var(--pink2)':''}">✗ Afg.</button>
+      </div>
+    </div>`).join('')}
+  </div>
+
+  <div class="admin-section">
+    <h3>✏️ Spelernamen</h3>
+    ${state.players.map(p => `
+      <span class="admin-label">${p.emoji} Speler</span>
+      <input type="text" value="${p.name}" onchange="updatePlayerName('${p.id}', this.value)" style="margin-bottom:6px">
+    `).join('')}
+    <button class="save-btn" onclick="saveNames()">Namen opslaan</button>
+    <div class="saved-msg" id="namesSaved">✓ Opgeslagen</div>
+  </div>
+
+  <div class="admin-section">
+    <h3>🎯 Correcte antwoorden</h3>
+    <p style="font-size:13px;font-family:var(--font-italic);font-style:italic;color:var(--muted);margin-bottom:14px">Stel de juiste antwoorden in voor de test.</p>
+    ${state.testQuestions.map((q, qi) => {
+      const opts = ['q1','q2','q3','q4'].includes(q.id) ? state.players.map(p=>p.name) : q.options;
+      return `
+      <span class="admin-label">V${qi+1}: ${q.text.substring(0,45)}...</span>
+      <select onchange="setCorrectAnswer('${q.id}', this.value)">
+        <option value="">— Geen —</option>
+        ${opts.map((o,i)=>`<option value="${i}" ${q.correctIndex===i?'selected':''}>${o}</option>`).join('')}
+      </select>`;
+    }).join('')}
+    <button class="save-btn" onclick="saveCorrectAnswers()">Antwoorden opslaan</button>
+    <div class="saved-msg" id="answersSaved">✓ Opgeslagen</div>
+  </div>
+
+  <div class="admin-section">
+    <h3>⚙️ Weekendfase</h3>
+    <span class="admin-label">Huidige fase:</span>
+    <select id="phaseSelect">${phaseOpts}</select>
+    <span class="admin-label">Huidige ronde:</span>
+    <select id="roundSelect">${roundOpts}</select>
+    <button class="save-btn" onclick="savePhase()">Opslaan</button>
+    <div class="saved-msg" id="phaseSaved">✓ Opgeslagen</div>
+  </div>
+
+  <div class="admin-section" style="border-color:rgba(232,81,122,0.3)">
+    <h3 style="color:var(--pink)">⚠️ Reset</h3>
+    <button class="save-btn" style="background:rgba(232,81,122,0.1);border-color:var(--pink);color:var(--pink2);margin-top:0" onclick="resetAll()">Alles resetten 🗑</button>
+  </div>
+  `;
+
+  panel.innerHTML = html;
+}
+
+async function saveMol() {
+  state.molId = document.getElementById('molSelect').value || null;
+  await pushState();
+  flashSaved('molSaved');
+}
+
+function setCorrectAnswer(qId, val) {
+  const q = state.testQuestions.find(x => x.id === qId);
+  if (q) q.correctIndex = val === '' ? null : parseInt(val);
+}
+
+async function saveCorrectAnswers() {
+  await pushState();
+  flashSaved('answersSaved');
+}
+
+async function savePhase() {
+  state.phase = parseInt(document.getElementById('phaseSelect').value);
+  state.currentRound = parseInt(document.getElementById('roundSelect').value);
+  await pushState();
+  renderHome();
+  flashSaved('phaseSaved');
+}
+
+async function setPlayerStatus(pid, status) {
+  if (status === 'afgevallen') {
+    if (!state.eliminations.includes(pid)) state.eliminations.push(pid);
+  } else {
+    state.eliminations = state.eliminations.filter(x => x !== pid);
+  }
+  await pushState();
+  renderAdmin();
+}
+
+function updatePlayerName(pid, name) {
+  const p = state.players.find(x => x.id === pid);
+  if (p) p.name = name;
+}
+
+async function saveNames() {
+  await pushState();
+  flashSaved('namesSaved');
+}
+
+function flashSaved(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+async function resetAll() {
+  if (!confirm('Weet je zeker? Alles wordt gewist!')) return;
+  state = defaultState();
+  await pushState();
+  adminUnlocked = false;
+  document.getElementById('adminLock').style.display = 'block';
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('adminPwInput').value = '';
+  showToast('Reset! Alles gewist 🍷');
+}
+
+// ══════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+initSync();
+</script>
+</body>
+</html>
